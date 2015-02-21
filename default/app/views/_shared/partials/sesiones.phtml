@@ -1,3 +1,11 @@
+<?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+	<?php $deshabilitar = "Sin Accion" ?>
+	<?php $disabled = "disable readonly" ?>
+<?php else: ?>
+	<?php $deshabilitar = "" ?>
+	<?php $disabled = "" ?>
+
+<?php endif ?>
 <?php echo Tag::js("jquery/jquery.min") ?>
 <meta charset="utf-8">
 <script type="text/javascript">
@@ -22,12 +30,25 @@ $(document).ready(function(){
 </script>
 <?php //echo Tag::css("datatable/css/jquery.dataTables.min") ?>
 
-<?php echo View::partial("menu"); ?>
+<?php if (Auth::is_valid()): ?>
+    <?php if (Auth::get("role") == "admin"): ?>
+		<?php echo View::partial("menu_entidad"); ?>
+	<?php else: ?>
+		<?php echo View::partial("menu"); ?>
+	<?php endif ?>
+<?php endif ?>
+
 <section class="entidad-encabezado">
     <?php echo Html::img($entidad->logo,$entidad->logo) ?>
     <h1><?php echo $entidad->nombre; ?></h1>
     <p><?php echo $entidad->descripcion; ?></p>
-    <h4>Admin: Steffany Terán /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+    
+     <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+    <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php else: ?>
+    <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php endif ?>
+
 </section> 
 
 <section class="listado-sesiones">
@@ -55,9 +76,18 @@ $(document).ready(function(){
 						<td><?php echo $value->tiempo ?></td>
 						<!--<td><?php //echo Html::img($value->imagen ? $value->imagen : "no_imagen.png",$value->imagen ? $value->imagen : "no_imagen.png","style='width:50px'") ?></td>-->
 						<?php if ($value->publicado): ?>
+							<?php if ($deshabilitar): ?>
+							<td><?php $deshabilitar ?></td>
+							<?php else: ?>
+
 							<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" checked></td>
+							<?php endif ?>
 						<?php else: ?>
+							<?php if ($deshabilitar): ?>
+							<td><?php echo $deshabilitar ?></td>
+							<?php else: ?>
 							<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" ></td>
+							<?php endif ?>
 						<?php endif ?>
 						<?php //$participaciones = $obj_participaciones->getParticipacionesBySesionId($value->id) ?>
 						<?php //if (count($participaciones)): ?>

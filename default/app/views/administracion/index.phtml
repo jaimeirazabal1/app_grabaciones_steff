@@ -5,7 +5,7 @@
     <?php echo Html::img("regmeet/icono.png") ?>
     <h1>Regmeet</h1>
     <p>Una herramienta enfocada principalmente en la difusión de reuniones de interés público de forma sencilla </p>
-    <h4>Admin: Griset Jaramillo /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+     <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
 </section> 
 <section class="listado-sesiones">
 	<fieldset class="sesiones-listado" style="padding:10px;margin:5px;">

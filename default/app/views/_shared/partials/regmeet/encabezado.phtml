@@ -1,0 +1,32 @@
+<header>
+    <h1><?php echo Html::img("regmeet/regmeet_logo.png") ?></h1>
+    <nav>
+      <ul>
+        <!--<li class="link-home">Home</li>-->
+        <li><a href="#quienes_somos" onclick="quienessomos()">Quiénes Somos</a></li>
+        <li><a href="#servicios" onclick="servicios()">Servicios</a></li>
+        <li><a href="#contacto" onclick="contacto()">Contacto</a></li>
+      </ul>
+    </nav>
+    <p>Síguenos en: </p>
+    <a href="https://www.facebook.com/"><span><?php echo Html::img("regmeet/face.png") ?></span></a>
+    <div class="telefono"><?php echo Html::img("regmeet/tlf.png","","style='width:150px;'") ?></div>
+</header>
+
+<script type="text/javascript">
+function quienessomos(){
+document.getElementById('somos').style.display = 'block';
+document.getElementById('service').style.display = 'none';
+document.getElementById('contact').style.display = 'none';
+}
+function servicios(){
+document.getElementById('somos').style.display = 'none';
+document.getElementById('service').style.display = 'block';
+document.getElementById('contact').style.display = 'none';
+}
+function contacto(){
+document.getElementById('somos').style.display = 'none';
+document.getElementById('service').style.display = 'none';
+document.getElementById('contact').style.display = 'block';
+}
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
+  <title>Regmeet</title>
+  <?php Tag::css('bienvenida') ?>
+  <?php Tag::css('style') ?>
+  <?php Tag::css('estilos') ?>
+  <?php Tag::css('bootstrap/css/bootstrap.min') ?>
+  <?php Tag::css('camera') ?>
+  <link rel="shortcut icon" href="" />
+  <?php echo Html::includeCss() ?>
+  <?php echo Tag::js("scripts/jquery.min") ?>
+  <?php echo Tag::js("scripts/jquery.mobile.customized.min") ?>
+  <?php echo Tag::js("scripts/jquery.easing.1.3") ?>
+  <?php echo Tag::js("scripts/camera") ?>
+
+  <style>
+  .fluid_container {
+      margin: 0 auto;
+      width: 419px;
+     
+    }
+  </style>
+     <script>
+    jQuery(function(){
+      
+      jQuery('#camera_wrap_1').camera({
+        thumbnails: true
+      });
+
+
+    });
+  </script>
+ </head>
+
+ <body style="background:#eee;">
+    
+  <section class="contenedor">
+    <?php echo View::partial("regmeet/encabezado") ?>
+    <!--Banner-->
+    <?php echo View::partial("regmeet/banner") ?>
+   <section class="contenido"> 
+      <?php echo View::partial("regmeet/menu_right") ?>
+    <section class="general">
+      <?php echo View::content() ?>
+    </section>
+   </section>
+    <?php echo View::partial("regmeet/footer") ?>
+   
+  </section>
+
+ </body>
+</html>

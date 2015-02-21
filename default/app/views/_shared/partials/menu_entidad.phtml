@@ -1,0 +1,35 @@
+    <section class="entidad">
+      <section class="entidad-linea"></section>
+        <section class="entidad-menu">
+          <div class="menus">
+              <ul>
+                <li><?php echo Html::link("administracion","Administración") ?></li> 
+                <li><a href="<?php echo PUBLIC_PATH.Router::get('controller') ?>#inicio" onclick="inicio()">Entidad</a></li> 
+                 <li><a href="<?php echo PUBLIC_PATH.Router::get('controller') ?>#config-general" onclick="config()">Configuración General</a></li> 
+                 <li><?php echo Html::link("cliente/logout","Salir del Sistema") ?></li> 
+               </ul>
+          </div>
+        </section>
+      </section>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  var url = location.href;
+  var vista_menu = url.split("#");
+  vista_menu = vista_menu[1];
+  if (vista_menu=="config-general") {
+    config();
+  }
+  if (vista_menu=="inicio") {
+    inicio();
+  };
+})
+function config(){
+document.getElementById('config-general').style.display = 'block';
+document.getElementById('inicio').style.display = 'none';
+}
+function inicio(){
+document.getElementById('config-general').style.display = 'none';
+document.getElementById('inicio').style.display = 'block';
+}
+</script>

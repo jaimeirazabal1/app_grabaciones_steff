@@ -27,6 +27,19 @@ class Cliente extends ActiveRecord{
 		$query = "select cliente.* from cliente inner join entidad on entidad.id = cliente.entidad_id and entidad.id = '$id'";
 		return $this->find_by_sql($query);
 	}
+	public function iniciarComoParticipante($participante,$cod_acceso){
+
+		$auth = new Auth("model", "class: cliente", "participante: $participante", "cod_acceso: $cod_acceso");
+        if ($auth->authenticate()) {
+        	$_SESSION['KUMBIA_AUTH_IDENTITY']['default']['role'] =  "participante";
+        	$entidad = Load::model("entidad");
+        	$entity = $entidad->getEntidadByClienteId(Auth::get("id"));
+            Router::redirect($entity->nombre."/");
+            return true;
+        }else{
+           return false;
+        }
+	}
 }
 
  ?>

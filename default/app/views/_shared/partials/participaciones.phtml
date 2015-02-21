@@ -1,6 +1,12 @@
 <?php View::content(); ?>
 <meta charset="utf-8">
 <style type="text/css">
+th{
+	font-family: 'Century Gothic';
+}
+td{
+	font-size: 14px;
+}
 #playlist, #player {
 width: 400px; /* Ancho de todo el contenedor */
 padding: 20px;
@@ -77,20 +83,33 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 <?php echo Tag::css("datatable/css/jquery.dataTables") ?>
 <?php echo Tag::js("datatable/jquery.dataTables") ?>
 
-<?php echo View::partial("menu"); ?>
+<?php if (Auth::is_valid()): ?>
+    <?php if (Auth::get("role") == "admin"): ?>
+		<?php echo View::partial("menu_entidad"); ?>
+	<?php else: ?>
+		<?php echo View::partial("menu"); ?>
+	<?php endif ?>
+<?php endif ?>
+
 <section class="entidad-encabezado" style="margin-bottom:50px;">
     <?php echo Html::img($entidad->logo,$entidad->logo) ?>
     <h1><?php echo $entidad->nombre; ?></h1>
     <p><?php echo $entidad->descripcion; ?></p>
-    <h4>Admin: Steffany Terán /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+    
+     <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+    <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php else: ?>
+    <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php endif ?>
+
 </section> 
 
-<section style="position:relative;">
+<section style="position:relative;margin:auto;width:960px;">
 <?php if ($participaciones): ?>
 <div id=''>
-	<span style="font-family:'Century Gothic';font-size:16px;font-weight:bold;position:relative;left:295px;top:20px;color:grey;">SESIÓN COMPLETA</span>
-	<br>
-	<br><br>
+	<fieldset class="sesiones-editar" style="padding:10px;margin:5px;">
+	<legend>SESIÓN COMPLETA</legend>
+
 	<center>
 	<audio controls='' id='audio' preload='auto' tabindex='0' type='audio/mpeg'>
 		<?php //foreach ($participaciones as $key => $value): ?>
@@ -104,10 +123,10 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 	</center>
 	<br>
 </div>
-<div class="" style="width:400px;margin:auto">
-	<table class="datatable">
+<div class="" style="width:600px;margin:auto">
+	<table class="datatable" style="font-family:Verdana;margin-top:20px;">
 		<thead>
-			<th>Pista</th>
+			<th>Participaciones</th>
 			<th>Acción</th>
 		</thead>
 
@@ -148,7 +167,9 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 </table>
 </div>
 <?php else: ?>
-	<h2>No hay Participaciones Agregadas</h2>
+
+	<h4 style="text-align:center;font-family:Verdana;">No hay Participaciones Agregadas</h4>
+
 <?php endif ?>
 </section>
 <?php echo Tag::js("jquery/jquery.min") ?>
@@ -261,12 +282,14 @@ function runaudio(link,player){
 </script>
 
 <?php if ($documentos): ?>
-	<fieldset style="padding:10px;margin:5px;width:300px">
+<section class="listado-sesiones">	
+	<fieldset class="sesiones-editar" style="padding:10px;margin:5px;">
 	<legend>Documentos</legend>
 	<ul>
 		<?php foreach ($documentos as $key => $value): ?>
-			<li><?php echo Html::link($value->adjunto,$value->nombre) ?></li>
+			<li style="list-style:none;"><?php echo Html::link($value->adjunto,$value->nombre) ?></li>
 		<?php endforeach ?>
 	</ul>
 	</fieldset>
+</section>
 <?php endif ?>

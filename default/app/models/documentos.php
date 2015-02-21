@@ -61,7 +61,7 @@ class Documentos extends ActiveRecord{
 	public function checkExtension($extension)
     {
         //aqui podemos añadir las extensiones que deseemos permitir
-        $extensiones = array("doc","docx");
+        $extensiones = array("doc","docx","jpg","jpeg","png","pdf");
         if(in_array(strtolower($extension), $extensiones))
         {
             return TRUE;

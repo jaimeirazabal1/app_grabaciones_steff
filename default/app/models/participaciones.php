@@ -52,10 +52,18 @@ class Participaciones extends ActiveRecord{
 		return false;
 	}
 	public function getParticipacionesBySesionId($id,$order=null){
-		if ($order) {
-			return $this->find("conditions: sesiones_id = '$id'","order: $order");
+		if (Auth::is_valid() and Auth::get("role")=='participante') {
+			if ($order) {
+				return $this->find("conditions: sesiones_id = '$id' and status is not null","order: $order");
+			}
+			return $this->find("conditions: sesiones_id = '$id'  and status is not null");
+		}else{
+
+			if ($order) {
+				return $this->find("conditions: sesiones_id = '$id'","order: $order");
+			}
+			return $this->find("conditions: sesiones_id = '$id'");
 		}
-		return $this->find("conditions: sesiones_id = '$id'");
 	}
 	public function getMenorTiempoDeSesion($sesion_id){
 		$tiempo =  $this->find("conditions: sesiones_id = '$sesion_id'","order: tiempo asc");

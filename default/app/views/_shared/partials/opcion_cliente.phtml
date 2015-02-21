@@ -27,12 +27,33 @@
 		});
 	})
 </script>
-<?php echo View::partial("menu"); ?>
+<?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+	<?php $deshabilitar = "display:none;" ?>
+	<?php $disabled = "disable readonly" ?>
+<?php else: ?>
+	<?php $deshabilitar = "" ?>
+	<?php $disabled = "" ?>
+
+<?php endif ?>
+
+<?php if (Auth::is_valid()): ?>
+    <?php if (Auth::get("role") == "admin"): ?>
+		<?php echo View::partial("menu_entidad"); ?>
+	<?php else: ?>
+		<?php echo View::partial("menu"); ?>
+	<?php endif ?>
+<?php endif ?>
+
 <section class="entidad-encabezado">
     <?php echo Html::img($entidad->logo,$entidad->logo) ?>
     <h1><?php echo $entidad->nombre; ?></h1>
     <p><?php echo $entidad->descripcion; ?></p>
+
+    <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+    <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php else: ?>
     <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php endif ?>
 </section> 
 
 <section class="listado-sesiones">
@@ -84,14 +105,16 @@
 	<?php View::content() ?>
 	<?php echo Form::openMultipart() ?>
 		<label>Ubicación</label><br>
-		<input type="text" name="entidad[ubicacion]" class='form-control  input-sm' style="width:100%" value="<?php echo $entidad->ubicacion ?>"><br>
+		<input type="text" name="entidad[ubicacion]" <?php echo $disabled ?> class='form-control  input-sm' style="width:100%" value="<?php echo $entidad->ubicacion ?>"><br>
 		<label>Descripción</label><br>
-		<textarea name="entidad[descripcion]" style="width:100%" class='form-control  input-sm' cols="30" rows="4"><?php echo $entidad->descripcion ?></textarea><br>
+		<textarea name="entidad[descripcion]" style="width:100%"  <?php echo $disabled ?>  class='form-control  input-sm' cols="30" rows="4"><?php echo $entidad->descripcion ?></textarea><br>
+		<div style="<?php echo $deshabilitar?>">
 		<label>Logo</label><br>
 		<?php //echo Html::img($entidad->logo,$entidad->logo,"style='width:200px'") ?><br>
-		<input type="file" name="logo" value=""><br><br>
-		<input type="hidden" name="entidad[id]" value="<?php echo $entidad->id ?>">
-		<?php echo Form::submit("Modificar","class='btn btn-default btn-sm' style='float:right;'") ?>
+		<input type="file" name="logo"  <?php echo $disabled ?>  value=""><br><br>
+		</div>
+		<input type="hidden" name="entidad[id]"  <?php echo $disabled ?>  value="<?php echo $entidad->id ?>">
+		<?php echo Form::submit("Modificar","class='btn btn-default btn-sm' style='float:right;$deshabilitar'") ?>
 	</form>
 	</fieldset>
 
@@ -102,20 +125,22 @@
 	<?php echo Form::open() ?>
 	 <div class="form-group">
 		<label style='float:left;margin-bottom:5px;margin-right:10px;'>Nombre y Apellido</label>
-		<?php echo Form::text("cliente.nombre","class='form-control  input-sm' style='width:130px;float:left;margin-right:5px;'") ?>
-		<?php echo Form::text("cliente.apellido","class='form-control  input-sm' style='width:130px;float:left;'") ?>
+		<?php echo Form::text("cliente.nombre","class='form-control  input-sm' $disabled style='width:130px;float:left;margin-right:5px;'") ?>
+		<?php echo Form::text("cliente.apellido","class='form-control  input-sm' $disabled style='width:130px;float:left;'") ?>
 	</div>
+		<label>Nombre Del Participante:</label>
+		<?php echo Form::text("cliente.participante","class='form-control  input-sm' readonly disabled") ?>
 		<label style="margin-top:10px;">Código acceso (PARTICIPANTE)</label><br>
-		<?php echo Form::text("cliente.cod_acceso","class='form-control  input-sm'") ?><br>
+		<?php echo Form::text("cliente.cod_acceso","class='form-control  input-sm' $disabled") ?><br>
 		<label>Teléfono</label><br>
-		<?php echo Form::text("cliente.tlf","class='form-control  input-sm'") ?><br>
+		<?php echo Form::text("cliente.tlf","class='form-control  input-sm' $disabled") ?><br>
 		
 		<br>
-		<?php echo Form::submit("Modificar","class='btn btn-default btn-sm' style='float:right;'") ?>
+		<?php echo Form::submit("Modificar","class='btn btn-default btn-sm'  style='float:right;$deshabilitar'") ?>
 	<?php echo Form::close() ?>
 	</fieldset>
 
-		<div style="background:#eee;padding:50px;margin-top:20px;">
+		<div style="background:#eee;padding:50px;margin-top:20px;<?php echo $deshabilitar ?>">
 			<?php echo Form::open() ?>
 		<!--<fieldset style="width:45%;margin:auto;padding:10px;margin-bottom:5px">-->
 			<legend>Cambio de Clave</legend>
@@ -151,7 +176,7 @@
 </fieldset>-->
 
 <?php if (isset($sesiones_creadas) and $sesiones_creadas): ?>
-	<fieldset style="width:400px;margin:auto;padding:5px;display:none;">
+	<fieldset  style="width:400px;margin:auto;padding:5px;display:none;">
 	<legend>Sesiones por Año</legend>
 		<table class="datatable">
 			<thead>

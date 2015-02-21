@@ -1,12 +1,33 @@
+<?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+	<?php $deshabilitar = "display:none;" ?>
+	<?php $disabled = "disable readonly" ?>
+<?php else: ?>
+	<?php $deshabilitar = "" ?>
+	<?php $disabled = "" ?>
+
+<?php endif ?>
 <meta charset="utf-8">
 <?php View::content() ?>
 
-<?php echo View::partial("menu"); ?>
+<?php if (Auth::is_valid()): ?>
+    <?php if (Auth::get("role") == "admin"): ?>
+		<?php echo View::partial("menu_entidad"); ?>
+	<?php else: ?>
+		<?php echo View::partial("menu"); ?>
+	<?php endif ?>
+<?php endif ?>
+
 <section class="entidad-encabezado">
     <?php echo Html::img($entidad->logo,$entidad->logo) ?>
     <h1><?php echo $entidad->nombre; ?></h1>
     <p><?php echo $entidad->descripcion; ?></p>
-    <h4>Admin: Steffany Terán /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+    
+     <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
+    <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php else: ?>
+    <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+	<?php endif ?>
+
 </section> 
 
 <section class="listado-sesiones">
@@ -18,30 +39,30 @@
 			<label>Ubicación</label><br>
 			<?php echo Form::hidden("sesiones.id",null,$sesiones->id) ?>
 
-			<?php echo Form::textarea("sesiones.ubicacion","class='form-control' rows='2'",$sesiones->ubicacion) ?><br>
+			<?php echo Form::textarea("sesiones.ubicacion","class='form-control' $disabled rows='2'",$sesiones->ubicacion) ?><br>
 			<label>Descripción</label><br>
-			<?php echo Form::textarea("sesiones.descripcion","class='form-control' rows='4'",$sesiones->descripcion) ?><br>
+			<?php echo Form::textarea("sesiones.descripcion","class='form-control' $disabled rows='4'",$sesiones->descripcion) ?><br>
 			<!--<label>Imagen de Sesión</label><br>
 			<?php //echo Form::file("archivo") ?><br><br>-->
 			<?php echo Form::hidden("sesiones.imagen",null,'') ?>
-			<?php echo Form::submit("Editar","class='btn btn-default btn-sm' style='float:right;'") ?>
+			<?php echo Form::submit("Editar","class='btn btn-default btn-sm' style='float:right;$deshabilitar'") ?>
 		</form>
 	</fieldset>
-		<fieldset class="sesiones-archivos" style="padding:10px;margin:5px;width:45%;margin-top:80px;">
+		<fieldset class="sesiones-archivos" style="padding:10px;margin:5px;width:45%;margin-top:80px;<?php echo $deshabilitar?>">
 			<legend>Subir Archivos</legend>
 				<?php echo Form::openMultipart() ?>
 				<label>Subir Documentos</label><br>
 				<input type="file" multiple="multiple" name="documentos[]">
 				<?php echo Form::hidden("documentos_ocultos",null,"asd") ?><br><br>
-				<?php echo Form::submit("Agregar","class='btn btn-default btn-sm' style='float:right;'") ?>
+				<?php echo Form::submit("Agregar","class='btn btn-default btn-sm' style='float:right;$deshabilitar'") ?>
 			<?php echo Form::close() ?>
-		</fieldset>
+		
 		<?php if ($documentos): ?>
-			<fieldset style="padding:10px;margin:5px;width:300px">
+			
 			<legend>Documentos</legend>
 			<ul>
 				<?php foreach ($documentos as $key => $value): ?>
-					<li><?php echo Html::link($value->adjunto,$value->nombre) ?></li>
+					<li style="list-style:none;font-family:Verdana;font-size:12px;"><?php echo Html::link($value->adjunto,$value->nombre) ?></li>
 				<?php endforeach ?>
 			</ul>
 			</fieldset>

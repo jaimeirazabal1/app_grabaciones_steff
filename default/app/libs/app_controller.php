@@ -23,7 +23,7 @@ class AppController extends Controller
     	$controlador = Router::get("controller");
     	$accion = Router::get("action");
     	$ruta = $controlador."/".$accion;
-    	if (!Auth::is_valid() and $ruta != "cliente/login") {
+        if (!Auth::is_valid() and $ruta != "cliente/login") {
     		Flash::info("Debe ser usuario autenticado");
     		Router::redirect("cliente/login");
     	}else{

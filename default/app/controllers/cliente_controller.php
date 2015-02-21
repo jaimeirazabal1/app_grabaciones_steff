@@ -28,22 +28,24 @@ Class ClienteController extends AppController{
 		if (Input::haspost("cliente")){
 			$cliente = new Cliente();
 			$post = Input::post("cliente");
-            $pwd = $cliente->encriptar($post['clave']);
-            $usuario=$post['usuario'];
-            $auth = new Auth("model", "class: cliente", "usuario: $usuario", "clave: $pwd");
-            $r = new Role();
-            if ($auth->authenticate()) {
-            	$_SESSION['KUMBIA_AUTH_IDENTITY']['default']['role'] = isset($r->getRoleById(Auth::get("role_id"))->role) ? $r->getRoleById(Auth::get("role_id"))->role : null;
-            	$entidad = new Entidad();
-            	$entity = $entidad->getEntidadByClienteId(Auth::get("id"));
-            	if (Auth::get("role") == "admin") {
-            		Router::redirect("administracion/");
-            	}else{
-                	Router::redirect($entity->nombre."/");
-            	}
-            } else {
-                Flash::error("Falló");
-            }
+			if (!$cliente->iniciarComoParticipante($post['usuario'],$post['clave'])) {
+	            $pwd = $cliente->encriptar($post['clave']);
+	            $usuario=$post['usuario'];
+	            $auth = new Auth("model", "class: cliente", "usuario: $usuario", "clave: $pwd");
+	            $r = new Role();
+	            if ($auth->authenticate()) {
+	            	$_SESSION['KUMBIA_AUTH_IDENTITY']['default']['role'] = isset($r->getRoleById(Auth::get("role_id"))->role) ? $r->getRoleById(Auth::get("role_id"))->role : null;
+	            	$entidad = new Entidad();
+	            	$entity = $entidad->getEntidadByClienteId(Auth::get("id"));
+	            	if (Auth::get("role") == "admin") {
+	            		Router::redirect("administracion/");
+	            	}else{
+	                	Router::redirect($entity->nombre."/");
+	            	}
+	            } else {
+	                Flash::error("Falló");
+	            }
+			}
         }
 	}
 	public function logout(){
