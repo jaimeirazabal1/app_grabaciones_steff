@@ -19,11 +19,21 @@ class AppController extends Controller
 
     final protected function initialize()
     {	
+        /*----------------------------------------------------------------*/
+        /*----------------------------------------------------------------*/
+        /*----------------------------------------------------------------*/
+        /*aqui pones las rutas a las que quieres que todo el mundo ingrese*/
+        $rutas_publicas = array("cliente/login","index/index");
+        /*----------------------------------------------------------------*/
+        /*----------------------------------------------------------------*/
+        /*----------------------------------------------------------------*/
+        /*----------------------------------------------------------------*/
 
-    	$controlador = Router::get("controller");
-    	$accion = Router::get("action");
-    	$ruta = $controlador."/".$accion;
-        if (!Auth::is_valid() and $ruta != "cliente/login") {
+        $controlador = Router::get("controller");
+        $accion = Router::get("action");
+        $ruta = $controlador."/".$accion;
+
+        if (!Auth::is_valid() and !in_array($ruta, $rutas_publicas)) {
     		Flash::info("Debe ser usuario autenticado");
     		Router::redirect("cliente/login");
     	}else{

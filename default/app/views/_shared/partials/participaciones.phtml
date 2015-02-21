@@ -111,9 +111,9 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 	<legend>SESIÓN COMPLETA</legend>
 
 	<center>
-	<audio controls='' id='audio' preload='auto' tabindex='0' type='audio/mpeg'>
+	<audio controls='' onplay="primeraVez()" id='audio' preload='auto' tabindex='0' type='audio/mpeg'>
 		<?php //foreach ($participaciones as $key => $value): ?>
-			<source src="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$participaciones[0]->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $participaciones[0]->tiempo)."_".$participaciones[0]->nombre_participante.".mp3" ?>" type='audio/mp3'/>
+			<source src="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$participaciones[0]->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $participaciones[0]->tiempo)."_".$participaciones[0]->nombre_participante.".mp3" ?>" tiempoparticipante="<?php echo str_replace(":", "-", $participaciones[0]->tiempo) ?>" nombreparticipante="<?php echo $participaciones[0]->nombre_participante ?>"  type='audio/mp3'/>
 		<?php //endforeach ?>
 		Hola, tu navegador no está actualizado y no puede mostrar este contenido.
 	</audio>
@@ -127,7 +127,12 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 	<table class="datatable" style="font-family:Verdana;margin-top:20px;">
 		<thead>
 			<th>Participaciones</th>
-			<th>Acción</th>
+			<?php if (Auth::get("role")=="participante"): ?>
+				<th>Sin Acción</th>
+
+			<?php else: ?>
+				<th>Acción</th>
+			<?php endif ?>
 		</thead>
 
 		<?php $activa = 0 ?>
@@ -135,29 +140,37 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 		<tr>
 	<?php if ($activa == 0): ?>
 	<td class='active'>
-		<a class="track" onclick="return false;" href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
+		<a class="track"  href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>" tiempoparticipante="<?php echo str_replace(":", "-", $value->tiempo) ?>" nombreparticipante="<?php echo $value->nombre_participante ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
 	</td>
-	<td>
-		<b style="font-size:12px;">Activar/desactivar</b>
-		<?php if ($value->status): ?>
-		<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion">
-	<?php else: ?>
-		<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion">
-	<?php endif ?>
-	</td>
-	<?php else: ?>
-	<td>
-			<a class="track" onclick="return false;" href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
-		</td>
-		<td>
-			<b style="font-size:12px;">Activar/desactivar</b>
-			<?php if ($value->status): ?>
-			<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion">
-
+		<?php if (Auth::get("role")=="participante"): ?>
+			<td><center>--</center>	</td>
 		<?php else: ?>
-			<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion">
-	<?php endif ?>
-	</td>
+			<td>
+				<b style="font-size:12px;">Activar/desactivar</b>
+				<?php if ($value->status): ?>
+				<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+			<?php else: ?>
+				<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+			<?php endif ?>
+			</td>
+		<?php endif ?>
+	<?php else: ?>
+	<td>
+			<a class="track"  tiempoparticipante="<?php echo str_replace(":", "-", $value->tiempo) ?>" nombreparticipante="<?php echo $value->nombre_participante ?>" href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
+		</td>
+		<?php if (Auth::get("role")=="participante"): ?>
+			<td><center>--</center></td>
+		<?php else: ?>
+			<td>
+					<b style="font-size:12px;">Activar/desactivar</b>
+					<?php if ($value->status): ?>
+					<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+
+				<?php else: ?>
+					<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+			<?php endif ?>
+			</td>
+		<?php endif ?>
 <?php endif ?>
 <?php $activa++ ?>
 
@@ -175,73 +188,96 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 <?php echo Tag::js("jquery/jquery.min") ?>
 
 <script>
-
+var primeravez=0;
 var audio;
 var playlist;
 var tracks;
 var current;
+function primeraVez(){
+	if (!primeravez) {
+		primeravez=1;
+		tiempo = $("audio source").attr('tiempoparticipante');
+		nombre = $("audio source").attr('nombreparticipante');
+		$("#reproduciendo").html("<b>Nombre: </b>"+nombre+" <br> <b>Tiempo: </b>"+tiempo);
+	};
+}
 $(document).ready(function(){
-$("body").on("click",".activar_participacion",function(){
-	$("body").off("click",".activar_participacion",function(){})
-	var id = $(this).attr("id");
-	$.ajax({
-		dataType:"json",
-		url:"../cambiarSesionStatus/"+id,
-		success:function(r){
+	$("body").on("click",".activar_participacion",function(){
+		$("body").off("click",".activar_participacion",function(){})
+		var id = $(this).attr("id");
+			$.ajax({
+				dataType:"json",
+				url:"../cambiarSesionStatus/"+id,
+				success:function(r){
 
-			if (r.respuesta==true) {
-				alert("Estado de la sesion cambiado")
-			}else{
-				alert("Error")
+					if (r.respuesta==true) {
+						alert("Estado de la sesion cambiado")
+					}else{
+						alert("Error")
 
-			}
-		}
+					}
+				}
+			})
+			$(".datatable").DataTable({
+					"language":{
+					    "sProcessing":     "Procesando...",
+					    "sLengthMenu":     "Mostrar _MENU_ registros",
+					    "sZeroRecords":    "No se encontraron resultados",
+					    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+					    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+					    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+					    "sInfoPostFix":    "",
+					    "sSearch":         "Buscar:",
+					    "sUrl":            "",
+					    "sInfoThousands":  ",",
+					    "sLoadingRecords": "Cargando...",
+					    "oPaginate": {
+					        "sFirst":    "Primero",
+					        "sLast":     "Último",
+					        "sNext":     "Siguiente",
+					        "sPrevious": "Anterior"
+					    },
+					    "oAria": {
+					        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+					        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					    }
+					}
+			});
+			$("body").on("click",".datatable a",function(){
+				$("body").off("click",".datatable a",function(){})
+				//initaudio();
+				/*$("audio source").attr("src",$(this).attr("href"))
+				alert("asd")
+				$("#reproduciendo").html($(this).attr("src").split("_")[1])
+				var audio = $("audio")[0];
+
+				audio.load();
+				audio.play();
+				initaudio()*/
+				
+				return false;
+			})
+			$("body").on("click",".track",function(){
+				$("body").off("click",".track",function(){})
+				tiempo = $(this).attr('tiempoparticipante');
+				nombre = $(this).attr('nombreparticipante');
+				console.log(tiempo,audio)
+				
+				return false;
+			})
+			$("body").on("change","search",function(){
+				$("body").off("change","search",function(){})
+				initaudio()
+			})
+		
+
+		
 	})
-	$(".datatable").DataTable({
-			"language":{
-			    "sProcessing":     "Procesando...",
-			    "sLengthMenu":     "Mostrar _MENU_ registros",
-			    "sZeroRecords":    "No se encontraron resultados",
-			    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-			    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-			    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-			    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-			    "sInfoPostFix":    "",
-			    "sSearch":         "Buscar:",
-			    "sUrl":            "",
-			    "sInfoThousands":  ",",
-			    "sLoadingRecords": "Cargando...",
-			    "oPaginate": {
-			        "sFirst":    "Primero",
-			        "sLast":     "Último",
-			        "sNext":     "Siguiente",
-			        "sPrevious": "Anterior"
-			    },
-			    "oAria": {
-			        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-			        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-			    }
-			}
-		});
-		$("body").on("click",".datatable a",function(){
-			$("body").off("click",".datatable a",function(){})
-			//initaudio();
-			$("audio source").attr("src",$(this).attr("href"))
-			alert()
-			$("#reproduciendo").html($(this).attr("src").split("_")[1])
-			var audio = $("audio")[0];
-			audio.load();
-			audio.play();
-			initaudio()
-			return false;
-		})
-		$("body").on("change","search",function(){
-			$("body").off("change","search",function(){})
-			initaudio()
-		})
+
+	initaudio();
 })
-initaudio();
-})
+
 function initaudio(){
 	current=0;
 	//alert("arrancando")
@@ -270,8 +306,11 @@ function initaudio(){
 }
 function runaudio(link,player){
 
-	//console.log(player)
-	player.src=link.attr('href');
+	//console.log(link)
+	$("audio source").attr('src',link.attr('href'));
+	tiempo = link.attr('tiempoparticipante');
+	nombre = link.attr('nombreparticipante');
+	$("#reproduciendo").html("<b>Nombre: </b>"+nombre+" <br> <b>Tiempo: </b>"+tiempo);
 	par=link.parent();
 	//par.addClass('active').siblings().removeClass('active');
 	audio[0].load();
