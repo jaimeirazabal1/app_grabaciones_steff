@@ -1,0 +1,76 @@
+<?php echo Tag::js("jquery/jquery.min") ?>
+<meta charset="utf-8">
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".sesion_publicado").on("click",function(){
+		var id = $(this).attr("id");
+		$.ajax({
+			async:false,
+			url:"../../cambioestadosesion/"+id,
+			success:function(r){
+				console.log(r)
+				if (r.correcto) {
+					alert("La publicación de la sesión a cambiado")
+				}else{
+					alert("Error")
+
+				}
+			}
+		})
+	})
+})
+</script>
+<?php //echo Tag::css("datatable/css/jquery.dataTables.min") ?>
+
+<?php echo View::partial("menu"); ?>
+<section class="entidad-encabezado">
+    <?php echo Html::img($entidad->logo,$entidad->logo) ?>
+    <h1><?php echo $entidad->nombre; ?></h1>
+    <p><?php echo $entidad->descripcion; ?></p>
+    <h4>Admin: Steffany Terán /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+</section> 
+
+<section class="listado-sesiones">
+	<fieldset class="sesiones-listado" style="padding:10px;margin:5px;">
+		<legend>Listado de Sesiones</legend>
+			<table class="table table-striped datatables">
+				<thead>
+					<th style="width:100px;">Fecha</th>
+					<th>Nombre</th>
+					<th>Ubicación</th>
+					<th>Descripción</th>
+					<th>Tiempo</th>
+					<!--<th>Imagen</th>-->
+					<th>Publicado</th>
+					<!--<th>Participaciones</th>-->
+					<th>Config</th>
+					<th>Editar</th>
+				</thead>
+				<?php foreach ($sesiones as $key => $value): ?>
+					<tr id="<?php echo $value->entidad_id ?>" class="tabla-sesiones">
+						<td><?php echo $value->fecha_sesion ?></td>
+						<td><?php echo $value->nombre ?></td>
+						<td><?php echo $value->ubicacion ?></td>
+						<td><?php echo $value->descripcion ?></td>
+						<td><?php echo $value->tiempo ?></td>
+						<!--<td><?php //echo Html::img($value->imagen ? $value->imagen : "no_imagen.png",$value->imagen ? $value->imagen : "no_imagen.png","style='width:50px'") ?></td>-->
+						<?php if ($value->publicado): ?>
+							<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" checked></td>
+						<?php else: ?>
+							<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" ></td>
+						<?php endif ?>
+						<?php //$participaciones = $obj_participaciones->getParticipacionesBySesionId($value->id) ?>
+						<?php //if (count($participaciones)): ?>
+							<!--<td>Tiene participaciones</td>-->
+						<?php //else: ?>
+							<!--<td>No tiene</td>-->
+						<?php //endif ?>
+
+						<td><?php echo Html::link("{$entidad->nombre}/participaciones/".md5($value->id),"<i class='glyphicon glyphicon-cog'></i>") ?></td>
+						<td><?php echo Html::link("{$entidad->nombre}/editar_sesion/".md5($value->id),"<i class='glyphicon glyphicon-edit'></i>") ?></td>
+					</tr>
+				<?php endforeach ?>
+			</table>
+
+	</fieldset>
+</section>

@@ -1,0 +1,36 @@
+<?php View::content() ?>
+<!--<h2>Login</h2>
+<?php// echo Form::open() ?>
+<div>
+	<label for="">Usuario</label><br>
+	<?php //echo Form::text("cliente.usuario") ?><br>
+</div>
+<div>
+	<label for="">Clave</label><br>
+	<?php //echo Form::pass("cliente.clave") ?><br>
+</div>
+<input type="submit">
+<?php //echo Form::close() ?>-->
+
+<!--Diseño-->
+
+<div style="position:relative;"><h4><?php echo Html::img("regmeet/icono.png") ?>Inicio de Sesión</h4></div>
+<hr/>
+<p class="mensaje-login">Solo disponible para personal autorizado</p>
+
+<?php echo Form::open() ?>
+	<div style="margin-bottom:10px;margin-top:20px;">
+		<?php echo Form::text("cliente.usuario","class='form-control' placeholder='nombre'") ?>
+	</div>
+	<div style="margin-bottom:20px;">
+		<?php echo Form::pass("cliente.clave","class='form-control' placeholder='contraseña'") ?>
+	</div>
+	<div style="">
+		<input type="checkbox"><span for="" style="font-size:12px;color:grey;"> Recordarme</span>
+	</div>
+
+	<button class="btn btn-primary" type="submit" style="float:right;border-radius:0px;">Ingresar</button>
+<?php echo Form::close() ?>
+<div style="margin-top:15px;margin-bottom:15px;"><?php echo Html::link("cliente/login","Recuperar Contraseña") ?></div>
+
+<p style="font-size:12px;">Si eres participante y no puedes ingresar, comunícate con el administrador de tu entidad</p>

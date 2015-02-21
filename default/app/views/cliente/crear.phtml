@@ -1,0 +1,52 @@
+<?php echo View::partial("menu"); ?>
+<section class="entidad-encabezado" style="margin-bottom:50px;">
+    <?php echo Html::img("regmeet/icono.png") ?>
+    <h1>Regmeet</h1>
+    <p>Una herramienta enfocada principalmente en la difusión de reuniones de interés público de forma sencilla </p>
+    <h4>Admin: Griset Jaramillo /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+</section> 
+<?php echo Form::open() ?>
+<section class="listado-sesiones">
+<?php View::content() ?>
+	<fieldset class="sesiones-editar" style="padding:10px;margin:5px;width:50%;float:left;margin-right:40px;">
+		<legend>Crear Cliente</legend>
+	
+		<?php echo Form::hidden("cliente.entidad_id",null,$entidad) ?>
+		<div>
+			<label>Nombre</label><br>
+			<?php echo Form::text("cliente.nombre","class='form-control'") ?><br>
+		</div>
+		<div>
+			<label>Apellido</label><br>
+			<?php echo Form::text("cliente.apellido","class='form-control'") ?><br>
+		</div>
+		<div>
+			<label>Teléfono</label><br>
+			<?php echo Form::text("cliente.tlf","class='form-control'") ?><br>
+		</div>
+		<!--<div>
+			<label>Role</label><br>
+			<?php //echo Form::dbselect("cliente.role_id") ?><br>
+		</div>-->
+	</fieldset>
+	<fieldset class="sesiones-editar" style="padding:10px;margin:5px;width:45%;margin-top:46px;">
+		<div>
+			<label>Usuario</label><br>
+			<?php echo Form::text("cliente.usuario","class='form-control'") ?><br>
+		</div>
+		<div>
+			<label>Clave</label><br>
+			<?php echo Form::pass("cliente.clave","class='form-control'") ?><br>
+		</div>
+		<div>
+			<label>Participante (Nombre de Usuario)</label><br>
+			<?php echo Form::text("cliente.participante","class='form-control'") ?><br>
+		</div>
+		<div>
+			<label>Código de Acceso (Participante)</label><br>
+			<?php echo Form::text("cliente.cod_acceso","class='form-control'") ?><br>
+		</div>
+		<input type="submit" class="btn btn-default btn-sm" style="float:right;">
+	</fieldset>
+</section>
+<?php echo Form::close() ?>

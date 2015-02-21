@@ -1,0 +1,40 @@
+<?php echo View::partial("menu"); ?>
+<section class="entidad-encabezado" style="margin-bottom:50px;">
+    <?php echo Html::img("regmeet/icono.png") ?>
+    <h1>Regmeet</h1>
+    <p>Una herramienta enfocada principalmente en la difusión de reuniones de interés público de forma sencilla </p>
+    <h4>Admin: Griset Jaramillo /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+</section> 
+<?php echo Form::openMultipart('entidad/crear') ?>
+<section class="listado-sesiones">
+<?php View::content() ?>
+	<fieldset class="sesiones-editar" style="padding:10px;margin:5px;width:50%;float:left;margin-right:40px;">
+		<legend>Crear Entidad</legend>
+		
+			<div>
+				<label>Nombre</label><br>
+				<?php echo Form::text("entidad.nombre","class='form-control'") ?><br>
+			</div>
+			<div>
+				<label>Ubicación</label><br>
+				<?php echo Form::text("entidad.ubicacion","class='form-control'") ?><br>
+			</div>
+		
+	</fieldset>
+
+	<fieldset class="sesiones-editar" style="padding:10px;margin:5px;width:45%;margin-top:46px;">
+		<div>
+			<label>Descripción</label><br>
+			<?php echo Form::textarea("entidad.descripcion","class='form-control' rows='3'") ?><br>
+		</div>
+		<div>
+			<label style="float:left;margin-right:10px;">Logo</label>
+			<?php echo Form::file('archivo') ?>
+			<?php echo Form::hidden('logo', NULL, 'no nulo') //para saber si se envió el form ?>
+		</div>
+		<br>
+			<input type="submit" class="btn btn-default btn-sm" style="float:right;">
+		
+	</fieldset>
+</section>
+<?php echo Form::close() ?>º

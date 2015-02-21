@@ -1,0 +1,701 @@
+a:hover{
+	text-decoration: none;
+}
+.contenedor{
+	margin: auto;	
+	width: 960px;
+	background: #fff;
+	padding-top: 30px;
+	padding: 10px;
+
+}
+.contenido{
+	background: #fff;
+	width: 100%;
+	min-height: 500px;
+  	overflow: hidden;
+ 	height: expression(this.scrollHeight < 501? "500px": "auto");
+}
+header{
+	text-align: left;
+	padding-bottom: 10px;
+	position: relative;
+	height: 150px;
+}
+header h1 img{
+	width: 150px;
+}
+header h1{
+	margin: 0;
+	padding: 0;
+}
+header .telefono{
+	position: absolute;
+	right:0px;
+	top:0px;
+	font-size: 14px;
+
+}
+nav{
+	position: absolute;
+	top:100px;
+	left:200px;
+}
+nav ul li{
+	list-style: none;
+	display: inline-block;
+	font-family: 'Century Gothic';
+	margin-right: 20px;
+	color: #4D4D4D;
+	font-size: 1em;
+}
+nav ul li a{
+	text-decoration: none;
+	color:#4D4D4D;
+}
+nav ul li a:hover{
+	text-decoration: none;
+	color:#E34550;
+}
+
+header span img{
+	position: absolute;
+	right: 1px;
+	top:95px;
+	width: 30px;
+}
+header p{
+	position: absolute;
+	right: 40px;
+	font-size: 1em;
+	font-family: 'Century Gothic';
+	color:#E34550;
+	top:100px;
+}
+a span img:hover{
+	opacity: 0.6;
+}
+.banner{
+	height: 230px;
+	border-top: 4px solid #333;
+	padding-top:3px;
+}
+.banner .app-img{
+	width: 516px;
+	height: 230px;
+	background: #BF4337;
+	position: relative;
+	float: left;
+}
+.banner .app-img .app_img{
+	width: 250px;
+	margin-top: 30px;
+	margin-left: 25px;
+}
+.banner .app-img p{
+	position: absolute;
+	top:45px;
+	left:295px;
+	width:200px;
+	color: #eee;
+	font-family: 'Century Gothic';
+	font-size: 1em;
+}
+.banner .app-img .microfono{
+	position: absolute;
+	left:435px;
+	top:150px;
+	width: 60px;
+} 
+.banner .slyder{
+	width: 419px;
+	height: 230px;
+	background: #eee;
+	position: relative;
+	float: left;
+	margin-left: 5px;
+
+}
+.icono-logo {
+	position: absolute;
+	right:37px;
+	top: 3px;
+	background: #333;
+}
+.icono-logo img{
+	width: 35px;
+	z-index: 9999;
+	position: absolute;
+	opacity: 0.3;
+}
+.banner .slyder ul{
+	position: absolute;
+	top: 215px;
+	left: 1.5px;
+}
+.banner .slyder li{
+	width: 101px;
+	height: 15px;
+	list-style: none;
+	display: inline-block;
+	font-size: 5px;
+}
+.menu-right{
+	float:right;
+	margin-right: 2px;
+	width: 310px;
+	min-height: 500px;
+  	overflow: hidden;
+ 	height: expression(this.scrollHeight < 501? "500px": "auto");
+	background: #fff;
+	margin-top: 5px;
+	border-left:1px solid #C5C6C6;
+	border-right:1px solid #C5C6C6;
+
+}
+.capa-contenido{
+	min-height: 500px;
+  	overflow: hidden;
+    height: expression(this.scrollHeight < 501? "500px": "auto");
+	border-left:1px solid #C5C6C6;
+	border-right:1px solid #C5C6C6;
+}
+.fondo_titulo{
+	width: 100%;
+	height: 40px;
+	background: #000;
+	opacity: 0.7;
+	color:#eee;
+}
+.fondo_titulo p{
+	font-size: 16px;
+	text-align: center;
+	line-height: 40px;
+	font-family: 'Century Gothic';
+}
+.menu-right ul li img{
+	margin-top: 3px;
+	padding: 2px;
+	border: 2px solid #eee;
+	float:left;
+	margin-right: 5px;
+}
+.menu-right ul li{
+	border-bottom: 1px solid #eee;
+	line-height: 14px;
+	list-style: none;
+}
+.menu-right .titulo-sesion{
+	padding-left: 4px;
+	padding-top: 6px;
+	padding-right: 4px;
+	height: 40px;
+}
+.menu-right .titulo-sesion b{
+	color:#333;
+	font-size: 14px;
+	font-family: 'Century Gothic';
+}
+.menu-right small{
+	font-size: 10px;
+
+}
+.menu-right span{
+	color:grey;
+	font-size: 14px;
+	font-family: 'Century Gothic';
+}
+.menu-right .texto-sesion{
+	font-size: 12px;
+	padding: 5px;
+}
+.menu-right .link-escuchar{
+	float: right;
+	width: 25px;
+	height: 25px;
+}
+.menu-right .link-escuchar img{
+	border-radius: 5px;
+}
+.general{
+	float:left;
+	margin-right: 2px;
+	width: 622px;
+	background: #fff;
+	margin-top: 5px;
+	min-height: 500px;
+  	overflow: hidden;
+ 	height: expression(this.scrollHeight < 501? "500px": "auto");
+}
+.link-home{
+	color:#E34550;
+}
+.secciones{
+	width:100%;
+	background:#eee;
+}
+.empresa{
+	position: relative;
+	margin-top:5px;
+	width: 100%;
+	padding:0px;
+	float:left;
+}
+
+.empresa h3{
+	margin: 0;
+	padding: 0px;
+	font-family: 'Corbel','Century Gothic';
+	text-align: center;
+	color:#eee;
+	margin-bottom: 10px;
+	background: #333;
+	padding: 10px;
+
+}
+.empresa p{
+	margin:auto;
+	color:grey;
+	font-size: 14px;
+	text-align: justify;
+}
+
+.servicios{
+	position: relative;
+	margin-top:5px;
+	width: 50%;
+	padding:35px;
+	float: right;
+}
+
+.servicios h3{
+	margin: 0;
+	padding: 0px;
+	font-family: 'Corbel','Century Gothic';
+	text-align: right;
+	color:#333;
+	margin-bottom: 20px;
+}
+.servicios p{
+	margin:auto;
+	color:grey;
+	font-size: 16px;
+	text-align: center;
+}
+.botones{
+	position: absolute;
+	top:40px;
+	left:290px;
+	color:#fff;
+}
+.botones .boton-a{
+	margin-right: 10px;
+	float:left;
+	width:20px;
+	height:20px;
+	border-radius: 20px;
+	background: #333;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color:#fff;
+	text-align: center;
+}
+
+.botones-b{
+	position: absolute;
+	top:65px;
+	left:290px;
+	color:#fff;
+}
+.botones-b .boton-b{
+	margin-right: 10px;
+	float:left;
+	width:20px;
+	height:20px;
+	border-radius: 20px;
+	background: #333;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color:#fff;
+	text-align: center;
+}
+
+.botones-c{
+	position: absolute;
+	top:90px;
+	left:290px;
+	color:#fff;
+}
+.botones-c .boton-c{
+	margin-right: 10px;
+	float:left;
+	width:20px;
+	height:20px;
+	border-radius: 20px;
+	background: #333;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color:#fff;
+	text-align: center;
+}
+.botones-d{
+	position: absolute;
+	top:115px;
+	left:290px;
+	color:#fff;
+}
+.botones-d .boton-d{
+	margin-right: 10px;
+	float:left;
+	width:20px;
+	height:20px;
+	border-radius: 20px;
+	background: #333;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color:#fff;
+	text-align: center;
+}
+.botones-e{
+	position: absolute;
+	top:140px;
+	left:290px;
+	color:#fff;
+}
+.botones-e .boton-e{
+	margin-right: 10px;
+	float:left;
+	width:20px;
+	height:20px;
+	border-radius: 20px;
+	background: #333;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color:#fff;
+	text-align: center;
+}
+
+.botones-f{
+	position: absolute;
+	top:165px;
+	left:290px;
+	color:#fff;
+}
+.botones-f .boton-f{
+	margin-right: 10px;
+	float:left;
+	width:20px;
+	height:20px;
+	border-radius: 20px;
+	background: #333;
+	line-height: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color:#fff;
+	text-align: center;
+}
+
+.mensaje-empresa h2{
+	font-family:Trebuchet MS, Trebuchet MS, sans-serif;
+	color:#333;
+	width:100%;
+	font-size: 25px;
+	margin-top: 20px;
+	text-align: center;
+}
+.mensaje-empresa .link-solicitud{
+	font-size: 12px;
+	background: #E34550;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	color: #eee;
+	border-radius: 3px;
+}
+.quienes-somos{
+	width: 620px;
+	padding: 20px;
+	text-align: justify;
+	font-size: 12px;
+	font-family: 'Verdana';
+	position: relative;
+}
+.servicios-empresa{
+	width: 620px;
+	padding: 20px;
+	text-align: justify;
+	font-size: 12px;
+	font-family: 'Verdana';
+	position: relative;
+}
+.contacto-empresa{
+	width: 620px;
+	padding: 20px;
+	text-align: justify;
+	font-size: 12px;
+	font-family: 'Verdana';
+	position: relative;
+}
+.quienes-somos img{
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #eee;
+	border-radius: 5px;
+}
+.servicios-empresa img{
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #eee;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+.mensaje-quienes-somos{
+	top:300px;
+	left: 40px;
+	background: black;
+	opacity: 0.8;
+	padding: 10px;
+	color:#fff;
+	position: absolute;
+	width: 400px;
+	text-align: left;
+	border-radius: 5px;
+}
+.footer_regmeet{
+	border-top: 2px solid #C5C6C6;
+	width: 99.8%;
+	height: 80px;
+}
+.footer_regmeet p{
+	text-align: center;
+	padding: 30px;
+	font-family: 'Century Gothic', Verdana;
+}
+
+/*Administracion*/
+
+.contenedor-login{
+	position:absolute;
+    top:50%;
+    left: 50%;
+    margin-top: -190px;
+    margin-left: -175px;
+	width:350px;
+	height: 380px;
+	background: #fff;
+}
+
+.login{
+	padding:20px;
+	position: relative;
+}
+.login .mensaje-login{
+	text-align: center;
+	background: #BF4337;
+	padding: 10px;
+	color:#eee;
+	font-size: 12px;
+}
+.login p{
+	font-family: Verdana;
+}
+.login h4{
+	font-family: 'Century Gothic';
+	text-align: center;
+}
+.login h4 img{
+	width: 40px;
+	position: absolute;
+	left:20px;
+	top:-5px;
+}
+.login input{
+	border-radius:0px;
+	border-left:2px solid #BF4337;
+	border-bottom: 1px solid #999;
+}
+.btn a:hover{
+	text-decoration: none;
+} 
+
+/*entidad*/
+.entidad-linea{
+	width: 100%;
+	height: 5px;
+	background: #BF4337;
+}
+.entidad-menu{
+	width: 100%;
+	height: 40px;
+	background: #000;
+}
+.menus {
+	width: 960px;
+	margin: auto;
+	position: relative;
+}
+.menus ul li{
+	list-style: none;
+	display: inline-block;
+	font-family: 'Century Gothic';
+	margin-right: 0px;
+	color: #fff;
+	font-size: 1em;
+	line-height: 40px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.menus ul li a{
+	text-decoration: none;
+	color:#fff;
+}
+.menus ul li a:hover{
+	text-decoration: none;
+	color:#BF4337;
+}
+.entidad-encabezado{
+	width: 960px;
+	margin: auto;
+	margin-top: 20px;
+	position: relative;
+	height: 150px;
+}
+.entidad-encabezado img{
+	width: 80px;
+	height: 80px;	
+}
+.entidad-encabezado h1{
+	position: absolute;
+	left:100px;
+	top:0px;
+	font-size: 18px;
+	font-family: Verdana;
+	text-transform: uppercase;
+}
+.entidad-encabezado p{
+	position: absolute;
+	left:100px;
+	top:40px;
+	font-family: 'Century Gothic';
+}
+.entidad-encabezado h4{
+	position: absolute;
+	bottom: 0px;
+	right:0px;
+	font-family: Verdana;
+	font-size: 12px;
+}
+.entidad-encabezado h4 a{
+	color:#BF4337;
+}
+.entidad-encabezado h4 a:hover{
+	color:#000;
+	text-decoration: none;
+}
+.listado-sesiones{
+	width:960px;
+	margin: auto;
+	font-family: Verdana;
+	position: relative;
+	min-height: 300px;
+  	overflow: hidden;
+ 	height: expression(this.scrollHeight < 301? "300px": "auto");
+}
+.listado-sesiones p{
+	font-size:14px;
+}
+.sesion-lista table{
+	width:400px;
+}
+.sesion-lista table th{
+	font-family: 'Century Gothic';
+}
+.entidad-sesion-reciente{
+	width:540px;
+	border:3px solid #eee;
+	position: absolute;
+	right:0px;
+	top:65px;
+	padding: 10px;
+	border-bottom: 1px solid #eee;
+	border-left: 1px solid #eee;
+}
+.entidad-sesion-reciente p{
+	font-size: 11px;
+	font-family: Verdana;
+}
+.entidad-sesion-reciente p b{
+	font-family: 'Century Gothic';
+	font-size: 12px;
+	color:#000;
+}
+.entidad-sesion-reciente p small{
+	float:right;
+}
+.entidad-titulo-reciente{
+	position: absolute;
+	width: 540px;
+	top:35px;
+	right: 0px;
+	height: 30px;
+	border-radius: 10px 10px 0px 0px;
+	font-family: 'Century Gothic';
+	text-align: left;
+	color: #BF4337;
+	line-height: 30px;
+	font-weight: bold;
+}
+.sesiones-listado legend{
+	font-family: 'Century Gothic';
+	border: 0px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+.datatables{
+	font-size: 12px;
+	font-family: Verdana;
+	width: 960px;
+	text-align: center;
+}
+.datatables th{
+	text-align: center;
+	color:grey;
+}
+.datatables td{
+	font-size: 11px;
+	font-family: Verdana;
+}
+.datatables i{
+	font-size: 14px;
+}
+
+.sesiones-editar legend{
+	font-family: 'Century Gothic';
+	border: 0px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: left;
+}
+fieldset label{
+	font-size: 14px;
+	font-family: 'Century Gothic';
+	color: grey;
+}
+fieldset .form-control{
+	font-size: 12px;
+	font-family: Verdana;
+}
+.sesiones-archivos legend{
+	font-family: 'Century Gothic';
+	border: 0px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: left;
+}

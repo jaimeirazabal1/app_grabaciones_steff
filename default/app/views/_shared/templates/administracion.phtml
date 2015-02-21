@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+ <head>
+  <meta http-equiv='Content-type' content='text/html; charset=<?php echo APP_CHARSET ?>' />
+  <title>Regmeet</title>
+  <?php Tag::css('bienvenida') ?>
+  <?php Tag::css('style') ?>
+  <?php Tag::css('estilos') ?>
+  <?php Tag::css('bootstrap/css/bootstrap.min') ?>
+  <link rel="shortcut icon" href="" />
+  <?php echo Html::includeCss() ?>
+  <?php echo Tag::js("scripts/jquery.min") ?>
+ </head>
+
+ <body style="background:#eee;">
+   <section class="contenedor-login">
+      <section class="login">
+        <?php echo View::content(); ?>
+      </section>
+   </section>
+ </body>
+</html>

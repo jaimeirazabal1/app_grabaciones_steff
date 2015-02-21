@@ -1,0 +1,32 @@
+<?php echo Tag::css("datatable/css/jquery.dataTables.min") ?>
+
+<?php echo View::partial("menu"); ?>
+<section class="entidad-encabezado" style="margin-bottom:50px;">
+    <?php echo Html::img("regmeet/icono.png") ?>
+    <h1>Regmeet</h1>
+    <p>Una herramienta enfocada principalmente en la difusión de reuniones de interés público de forma sencilla </p>
+    <h4>Admin: Griset Jaramillo /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+</section> 
+<section class="listado-sesiones">
+	<fieldset class="sesiones-listado" style="padding:10px;margin:5px;">
+		<legend>Panel de Administración</legend>
+		<table class="datatable datatables">
+			<thead>
+				<th>Fecha Creacion</th>
+				<th>Entidad</th>
+				<th>Cliente</th>
+				<th>Nº Sesiones</th>
+				<th>Página</th>
+			</thead>
+			<?php foreach ($entidades as $key => $value): ?>
+				<tr>
+					<td><?php echo $value->fecha_registro_entidad ?></td>
+					<td><?php echo $value->nombre_entidad ?></td>
+					<td><?php echo ucfirst($value->usuario_cliente) ?></td>
+					<td><?php echo $sesiones_objeto->getSesionesDeEntidadId($value->id_entidad) ?></td>
+					<td><?php echo Html::link($value->nombre_entidad."/","Ir a ".$value->nombre_entidad) ?></td>
+				</tr>
+			<?php endforeach ?>
+		</table>
+	</fieldset>
+</section>

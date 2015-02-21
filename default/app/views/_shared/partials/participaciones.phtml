@@ -1,0 +1,272 @@
+<?php View::content(); ?>
+<meta charset="utf-8">
+<style type="text/css">
+#playlist, #player {
+width: 400px; /* Ancho de todo el contenedor */
+padding: 20px;
+margin: 0 auto;
+display: block;
+text-align: center;
+font-family: Verdana;
+}
+#player {
+/* Imagen de fondo del primer contenedor */
+padding: 10px 20px;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+width: 960px;
+}
+audio {
+width:300px; /* Ancho del reproductor */
+margin:0 auto;
+display: inline-block
+}
+#player:after {
+/* Imagen animada */
+content: url(//lh3.googleusercontent.com/-KoD5KVOAsGQ/U1B_dWFttoI/AAAAAAAAFFc/uJ3SjLPlDHQ/s75/equalizador.gif);
+padding-left: 10px;
+}
+#playlist {
+margin: 0 auto 20px auto;
+display: block;
+background: #424242; /* Fondo del segundo contenedor */
+border-top: 5px solid #9F111B;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+text-align: left;
+font-size: 12px; /* Estilos de fuente */
+font-family: 'Trebuchet MS', Trebuchet, Verdana, sans-serif;
+font-weight: normal;
+}
+#playlist li, #playlist ul li {
+background-image: none;
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+#playlist li a {
+color: #CCC; /* Color de las canciones */
+background: #222; /* Fondo de las canciones */
+padding: 7px 5px;
+display: block;
+padding-left: 10px;
+text-decoration: none;
+}
+#playlist li a:hover{
+/*background: #9F111B; /* Color de fondo al pasar el cursor */
+text-decoration: none;
+background: rgb(10,100,100);
+}
+#playlist .active a {
+color: #B11623; /* Color de la canción activa */
+font-style: italic;
+text-decoration: none;
+}
+#playlist .active a:before {
+content: "\25B6";
+color: #CCC;
+font-style: normal;
+padding-right: 8px;
+}
+#playlist .active a:hover {
+color: #222; /* Color de la canción activa al pasar el cursor */
+}
+
+</style>
+<?php echo Tag::js("jquery/jquery.min") ?>
+<?php echo Tag::css("datatable/css/jquery.dataTables") ?>
+<?php echo Tag::js("datatable/jquery.dataTables") ?>
+
+<?php echo View::partial("menu"); ?>
+<section class="entidad-encabezado" style="margin-bottom:50px;">
+    <?php echo Html::img($entidad->logo,$entidad->logo) ?>
+    <h1><?php echo $entidad->nombre; ?></h1>
+    <p><?php echo $entidad->descripcion; ?></p>
+    <h4>Admin: Steffany Terán /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+</section> 
+
+<section style="position:relative;">
+<?php if ($participaciones): ?>
+<div id=''>
+	<span style="font-family:'Century Gothic';font-size:16px;font-weight:bold;position:relative;left:295px;top:20px;color:grey;">SESIÓN COMPLETA</span>
+	<br>
+	<br><br>
+	<center>
+	<audio controls='' id='audio' preload='auto' tabindex='0' type='audio/mpeg'>
+		<?php //foreach ($participaciones as $key => $value): ?>
+			<source src="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$participaciones[0]->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $participaciones[0]->tiempo)."_".$participaciones[0]->nombre_participante.".mp3" ?>" type='audio/mp3'/>
+		<?php //endforeach ?>
+		Hola, tu navegador no está actualizado y no puede mostrar este contenido.
+	</audio>
+	<div id="reproduciendo">
+		
+	</div>
+	</center>
+	<br>
+</div>
+<div class="" style="width:400px;margin:auto">
+	<table class="datatable">
+		<thead>
+			<th>Pista</th>
+			<th>Acción</th>
+		</thead>
+
+		<?php $activa = 0 ?>
+		<?php foreach ($participaciones as $key => $value): ?>
+		<tr>
+	<?php if ($activa == 0): ?>
+	<td class='active'>
+		<a class="track" onclick="return false;" href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
+	</td>
+	<td>
+		<b style="font-size:12px;">Activar/desactivar</b>
+		<?php if ($value->status): ?>
+		<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion">
+	<?php else: ?>
+		<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion">
+	<?php endif ?>
+	</td>
+	<?php else: ?>
+	<td>
+			<a class="track" onclick="return false;" href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
+		</td>
+		<td>
+			<b style="font-size:12px;">Activar/desactivar</b>
+			<?php if ($value->status): ?>
+			<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion">
+
+		<?php else: ?>
+			<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion">
+	<?php endif ?>
+	</td>
+<?php endif ?>
+<?php $activa++ ?>
+
+</tr>
+<?php endforeach ?>	
+
+</table>
+</div>
+<?php else: ?>
+	<h2>No hay Participaciones Agregadas</h2>
+<?php endif ?>
+</section>
+<?php echo Tag::js("jquery/jquery.min") ?>
+
+<script>
+
+var audio;
+var playlist;
+var tracks;
+var current;
+$(document).ready(function(){
+$("body").on("click",".activar_participacion",function(){
+	$("body").off("click",".activar_participacion",function(){})
+	var id = $(this).attr("id");
+	$.ajax({
+		dataType:"json",
+		url:"../cambiarSesionStatus/"+id,
+		success:function(r){
+
+			if (r.respuesta==true) {
+				alert("Estado de la sesion cambiado")
+			}else{
+				alert("Error")
+
+			}
+		}
+	})
+	$(".datatable").DataTable({
+			"language":{
+			    "sProcessing":     "Procesando...",
+			    "sLengthMenu":     "Mostrar _MENU_ registros",
+			    "sZeroRecords":    "No se encontraron resultados",
+			    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+			    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			    "sInfoPostFix":    "",
+			    "sSearch":         "Buscar:",
+			    "sUrl":            "",
+			    "sInfoThousands":  ",",
+			    "sLoadingRecords": "Cargando...",
+			    "oPaginate": {
+			        "sFirst":    "Primero",
+			        "sLast":     "Último",
+			        "sNext":     "Siguiente",
+			        "sPrevious": "Anterior"
+			    },
+			    "oAria": {
+			        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+			        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			    }
+			}
+		});
+		$("body").on("click",".datatable a",function(){
+			$("body").off("click",".datatable a",function(){})
+			//initaudio();
+			$("audio source").attr("src",$(this).attr("href"))
+			alert()
+			$("#reproduciendo").html($(this).attr("src").split("_")[1])
+			var audio = $("audio")[0];
+			audio.load();
+			audio.play();
+			initaudio()
+			return false;
+		})
+		$("body").on("change","search",function(){
+			$("body").off("change","search",function(){})
+			initaudio()
+		})
+})
+initaudio();
+})
+function initaudio(){
+	current=0;
+	//alert("arrancando")
+	audio=$('audio');
+	tracks=$(".track");
+
+	len=tracks.length-1;
+	audio[0].volume=1;
+	tracks.click(function(e){
+		e.preventDefault();
+		link=$(this);
+		current=link.parent().index();
+		runaudio(link,audio[0])
+	});
+	audio[0].addEventListener('ended',function(e){
+		current++;
+		if(current>len){
+			current=0;
+			link=tracks[0]
+		}else{
+			link=tracks[current]
+		}
+		runaudio($(link),audio[0])
+	})
+	
+}
+function runaudio(link,player){
+
+	//console.log(player)
+	player.src=link.attr('href');
+	par=link.parent();
+	//par.addClass('active').siblings().removeClass('active');
+	audio[0].load();
+	audio[0].play()
+}
+
+
+</script>
+
+<?php if ($documentos): ?>
+	<fieldset style="padding:10px;margin:5px;width:300px">
+	<legend>Documentos</legend>
+	<ul>
+		<?php foreach ($documentos as $key => $value): ?>
+			<li><?php echo Html::link($value->adjunto,$value->nombre) ?></li>
+		<?php endforeach ?>
+	</ul>
+	</fieldset>
+<?php endif ?>
