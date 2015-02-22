@@ -19,20 +19,28 @@ class AppController extends Controller
 
     final protected function initialize()
     {	
+        $controlador = Router::get("controller");
+        $accion = Router::get("action");
         /*----------------------------------------------------------------*/
         /*----------------------------------------------------------------*/
         /*----------------------------------------------------------------*/
         /*aqui pones las rutas a las que quieres que todo el mundo ingrese*/
-        $rutas_publicas = array("cliente/login","index/index");
+        /*esta condicion la hice porque necitabas que cualquiera entrara al index
+        de cualquier controlador. Pero hay una exception, no puede entrar al index
+        de el controlador administracion*/
+        if ($controlador!='administracion') {
+            $rutas_publicas = array("cliente/login","index/index",$controlador."/index",$controlador."/sesiones",$controlador."/participaciones");
+        }else{
+            $rutas_publicas = array("cliente/login","index/index");
+        }
         /*----------------------------------------------------------------*/
         /*----------------------------------------------------------------*/
         /*----------------------------------------------------------------*/
         /*----------------------------------------------------------------*/
 
-        $controlador = Router::get("controller");
-        $accion = Router::get("action");
         $ruta = $controlador."/".$accion;
 
+        //die($ruta);
         if (!Auth::is_valid() and !in_array($ruta, $rutas_publicas)) {
     		Flash::info("Debe ser usuario autenticado");
     		Router::redirect("cliente/login");

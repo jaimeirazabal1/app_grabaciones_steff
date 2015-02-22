@@ -46,7 +46,9 @@ $(document).ready(function(){
      <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
     <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
 	<?php else: ?>
-    <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+		<?php if (Auth::is_valid()): ?>
+	    	<h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+		<?php endif ?>
 	<?php endif ?>
 
 </section> 
@@ -62,10 +64,20 @@ $(document).ready(function(){
 					<th>Descripción</th>
 					<th>Tiempo</th>
 					<!--<th>Imagen</th>-->
-					<th>Publicado</th>
+					<?php if (Auth::is_valid()): ?>
+						<th>Publicado</th>
+					<?php endif ?>
 					<!--<th>Participaciones</th>-->
-					<th>Config</th>
-					<th>Editar</th>
+					<?php if (Auth::is_valid()): ?>
+						<th>Config</th>
+					<?php else: ?>
+						<th>Participaciones</th>
+					<?php endif ?>
+					
+					<?php if (Auth::is_valid()): ?>
+						<th>Editar</th>
+					<?php endif ?>
+
 				</thead>
 				<?php foreach ($sesiones as $key => $value): ?>
 					<tr id="<?php echo $value->entidad_id ?>" class="tabla-sesiones">
@@ -75,18 +87,21 @@ $(document).ready(function(){
 						<td><?php echo $value->descripcion ?></td>
 						<td><?php echo $value->tiempo ?></td>
 						<!--<td><?php //echo Html::img($value->imagen ? $value->imagen : "no_imagen.png",$value->imagen ? $value->imagen : "no_imagen.png","style='width:50px'") ?></td>-->
-						<?php if ($value->publicado): ?>
-							<?php if ($deshabilitar): ?>
-							<td><?php $deshabilitar ?></td>
-							<?php else: ?>
+						<?php if (Auth::is_valid()): ?>
+							
+							<?php if ($value->publicado): ?>
+								<?php if ($deshabilitar): ?>
+								<td><?php $deshabilitar ?></td>
+								<?php else: ?>
 
-							<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" checked></td>
-							<?php endif ?>
-						<?php else: ?>
-							<?php if ($deshabilitar): ?>
-							<td><?php echo $deshabilitar ?></td>
+								<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" checked></td>
+								<?php endif ?>
 							<?php else: ?>
-							<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" ></td>
+								<?php if ($deshabilitar): ?>
+								<td><?php echo $deshabilitar ?></td>
+								<?php else: ?>
+								<td><input type="checkbox" id="<?php echo $value->id ?>" class="sesion_publicado" ></td>
+								<?php endif ?>
 							<?php endif ?>
 						<?php endif ?>
 						<?php //$participaciones = $obj_participaciones->getParticipacionesBySesionId($value->id) ?>
@@ -97,7 +112,10 @@ $(document).ready(function(){
 						<?php //endif ?>
 
 						<td><?php echo Html::link("{$entidad->nombre}/participaciones/".md5($value->id),"<i class='glyphicon glyphicon-cog'></i>") ?></td>
+						<?php if (Auth::is_valid()): ?>
+							
 						<td><?php echo Html::link("{$entidad->nombre}/editar_sesion/".md5($value->id),"<i class='glyphicon glyphicon-edit'></i>") ?></td>
+						<?php endif ?>
 					</tr>
 				<?php endforeach ?>
 			</table>

@@ -47,13 +47,14 @@ class Sesiones extends ActiveRecord{
 		//echo $path."<br>";
 		if (is_dir($path)) {
 			if ($directorios = $this->getDirectoriosDeCarpeta($path)) {
+				//die(Util::pre($directorios));
 				for ($i=0; $i <count($directorios) ; $i++) { 
 					//var_dump($directorios[$i]);
 					$trozos = explode(".",$directorios[$i]);
 					$fecha_sesion = $trozos[0];
 					$nombre_sesion = $trozos[1];
-					
-					if (!$this->getSesionByNombre($nombre_sesion,$entidad_nombre)) {
+					/*si no existe la sesion*/
+					if (!$this->getSesionByNombre($nombre_sesion,$entidad_nombre,$fecha_sesion)) {
 
 						$entidad = Load::model("entidad")->getEntidadByNombre($entidad_nombre);
 						$sesion = new Sesiones();
@@ -124,11 +125,13 @@ class Sesiones extends ActiveRecord{
 		}
 		return false;
 	}
-	public function getSesionByNombre($nombre,$entidad_nombre){
+	public function getSesionByNombre($nombre,$entidad_nombre,$fecha_sesion){
 
 		$entidad = Load::model("entidad")->find_first("conditions: nombre = '$entidad_nombre' ");
-
-		$r = $this->find_first("conditions: nombre='$nombre' and entidad_id = '{$entidad->id}'");
+		$fecha_sesion = explode("-", $fecha_sesion);
+		$fecha_sesion = $fecha_sesion[2].'-'.$fecha_sesion[1]."-".$fecha_sesion[0];
+		$r = $this->find_first("conditions: nombre='$nombre' and entidad_id = '{$entidad->id}' and fecha_sesion='$fecha_sesion'");
+		//die(Util::pre($r));
 		//Util::pre($r); <-- va bien
 		return $r;
 	}

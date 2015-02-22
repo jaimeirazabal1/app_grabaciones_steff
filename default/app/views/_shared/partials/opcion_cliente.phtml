@@ -52,7 +52,10 @@
     <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
     <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
 	<?php else: ?>
-    <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+		<?php if (Auth::is_valid()): ?>
+			
+    	<h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+		<?php endif ?>
 	<?php endif ?>
 </section> 
 

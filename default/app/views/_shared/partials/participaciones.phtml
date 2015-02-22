@@ -95,12 +95,17 @@ color: #222; /* Color de la canción activa al pasar el cursor */
     <?php echo Html::img($entidad->logo,$entidad->logo) ?>
     <h1><?php echo $entidad->nombre; ?></h1>
     <p><?php echo $entidad->descripcion; ?></p>
-    
-     <?php if (Auth::is_valid() and Auth::get("role") == 'participante'): ?>
-    <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
-	<?php else: ?>
-    <h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
-	<?php endif ?>
+    <?php if (Auth::is_valid()): ?>
+    	
+	    <?php if (Auth::get("role") == 'participante'): ?>
+	    <h4>Participante: <?php echo Auth::get("participante");?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+		<?php else: ?>
+			<?php if (Auth::is_valid()): ?>
+				
+		    	<h4>Admin: <?php echo Auth::get("nombre")." ".Auth::get("apellido"); ?> /  <?php echo Html::link("cliente/logout","Salir") ?></h4>
+			<?php endif ?>
+		<?php endif ?>
+    <?php endif ?>
 
 </section> 
 
@@ -127,11 +132,13 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 	<table class="datatable" style="font-family:Verdana;margin-top:20px;">
 		<thead>
 			<th>Participaciones</th>
-			<?php if (Auth::get("role")=="participante"): ?>
-				<th>Sin Acción</th>
+			<?php if (Auth::is_valid()): ?>
+				<?php if (Auth::get("role")=="participante"): ?>
+					<th>Sin Acción</th>
 
-			<?php else: ?>
-				<th>Acción</th>
+				<?php else: ?>
+					<th>Acción</th>
+				<?php endif ?>
 			<?php endif ?>
 		</thead>
 
@@ -142,34 +149,40 @@ color: #222; /* Color de la canción activa al pasar el cursor */
 	<td class='active'>
 		<a class="track"  href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>" tiempoparticipante="<?php echo str_replace(":", "-", $value->tiempo) ?>" nombreparticipante="<?php echo $value->nombre_participante ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
 	</td>
-		<?php if (Auth::get("role")=="participante"): ?>
-			<td><center>--</center>	</td>
-		<?php else: ?>
-			<td>
-				<b style="font-size:12px;">Activar/desactivar</b>
-				<?php if ($value->status): ?>
-				<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+		<?php if (Auth::is_valid()): ?>
+			
+			<?php if (Auth::get("role")=="participante"): ?>
+				<td><center>--</center>	</td>
 			<?php else: ?>
-				<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+				<td>
+					<b style="font-size:12px;">Activar/desactivar</b>
+					<?php if ($value->status): ?>
+					<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+				<?php else: ?>
+					<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+				<?php endif ?>
+				</td>
 			<?php endif ?>
-			</td>
 		<?php endif ?>
 	<?php else: ?>
 	<td>
 			<a class="track"  tiempoparticipante="<?php echo str_replace(":", "-", $value->tiempo) ?>" nombreparticipante="<?php echo $value->nombre_participante ?>" href="<?php echo PUBLIC_PATH."files/uploads/$entidad->nombre/{$value->verificarFechaSesion($sesion->fecha_sesion)}.$sesion->nombre/".str_replace(":", "-", $value->tiempo)."_".$value->nombre_participante.".mp3" ?>"><?php echo $value->tiempo." ".$value->nombre_participante ?></a>
 		</td>
-		<?php if (Auth::get("role")=="participante"): ?>
-			<td><center>--</center></td>
-		<?php else: ?>
-			<td>
-					<b style="font-size:12px;">Activar/desactivar</b>
-					<?php if ($value->status): ?>
-					<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+		<?php if (Auth::is_valid()): ?>
+			
+			<?php if (Auth::get("role")=="participante"): ?>
+				<td><center>--</center></td>
+			<?php else: ?>
+				<td>
+						<b style="font-size:12px;">Activar/desactivar</b>
+						<?php if ($value->status): ?>
+						<input type="checkbox" checked id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
 
-				<?php else: ?>
-					<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+					<?php else: ?>
+						<input type="checkbox" id="<?php echo $value->id ?>" class="activar_participacion" title="Si esta Checked, esta Visible al participante">
+				<?php endif ?>
+				</td>
 			<?php endif ?>
-			</td>
 		<?php endif ?>
 <?php endif ?>
 <?php $activa++ ?>

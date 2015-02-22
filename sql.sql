@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-02-2015 a las 23:31:10
+-- Tiempo de generación: 23-02-2015 a las 00:48:31
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `participaciones` (
   `status` tinyint(1) DEFAULT NULL,
   `ruta` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=102 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=120 ;
 
 --
 -- Volcado de datos para la tabla `participaciones`
@@ -134,7 +134,9 @@ INSERT INTO `participaciones` (`id`, `sesiones_id`, `nombre_participante`, `tiem
 (56, 37, 'Maid with the Flaxen Hair', '00:40:30', NULL, 'C:\\wamp\\www\\steffany\\default\\public/files/uploads/nueva_entidad_steff/Sesion Extraordinaria/00-40-30_Maid with the Flaxen Hair.mp3'),
 (57, 37, 'Sleep Away', '01:30:30', NULL, 'C:\\wamp\\www\\steffany\\default\\public/files/uploads/nueva_entidad_steff/Sesion Extraordinaria/01-30-30_Sleep Away.mp3'),
 (100, 45, 'Maid with the Flaxen Hair', '01:00:30', 1, 'C:wampwwwapp_grabaciones_steffdefaultpublic/files/uploads/jaig_jaig/Sesion Ordinaria/01-00-30_Maid with the Flaxen Hair.mp3'),
-(101, 45, 'Kalimba', '01:30:30', 1, 'C:wampwwwapp_grabaciones_steffdefaultpublic/files/uploads/jaig_jaig/Sesion Ordinaria/01-30-30_Kalimba.mp3');
+(101, 45, 'Kalimba', '01:30:30', NULL, 'C:wampwwwapp_grabaciones_steffdefaultpublic/files/uploads/jaig_jaig/Sesion Ordinaria/01-30-30_Kalimba.mp3'),
+(118, 62, 'Maid with the Flaxen Hair', '01:00:30', NULL, 'C:\\wamp\\www\\app_grabaciones_steff\\default\\public/files/uploads/jaig_jaig/Sesion Ordinaria/01-00-30_Maid with the Flaxen Hair.mp3'),
+(119, 62, 'Kalimba', '01:30:30', NULL, 'C:\\wamp\\www\\app_grabaciones_steff\\default\\public/files/uploads/jaig_jaig/Sesion Ordinaria/01-30-30_Kalimba.mp3');
 
 -- --------------------------------------------------------
 
@@ -174,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `sesiones` (
   `publicado` tinyint(1) DEFAULT NULL,
   `sesion_abierta` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=63 ;
 
 --
 -- Volcado de datos para la tabla `sesiones`
@@ -183,7 +185,8 @@ CREATE TABLE IF NOT EXISTS `sesiones` (
 INSERT INTO `sesiones` (`id`, `entidad_id`, `fecha_sesion`, `fecha_registro`, `nombre`, `ubicacion`, `descripcion`, `imagen`, `publicado`, `sesion_abierta`) VALUES
 (35, 2, '2015-01-12', '2015-02-09 10:19:11', 'Sesion Extraordinaria', 'La California', 'Diseño web y empredimiento. Nuevas Tecnologías comentan los expertos...', 'uploads/sesiones/innovaweb/Sesion Extraordinaria/2015-02-10_02-54-50_business-innovation-concepts-icons-set-template-modern-info-graphic-design-template-marketing-creative-templates-41748135.jpg', NULL, NULL),
 (36, 2, '2015-01-20', '2015-02-11 10:01:25', 'Conferencia 2015', 'El Paraíso', 'Los ingenieros de Mountain View comparten con la comunidad sus trabajos y anuncian las nuevas herramientas a seguir durante el año 2015 Android.', 'uploads/sesiones/innovaweb/Conferencia 2015/2015-02-11_05-44-58_android.jpg', NULL, NULL),
-(45, 5, '2015-01-12', '2015-02-21 21:08:21', 'Sesion Ordinaria', 'Ubicacion de la sesion', 'Descripcion de la sesion', NULL, NULL, NULL);
+(45, 5, '2015-01-12', '2015-02-21 21:08:21', 'Sesion Ordinaria', 'Ubicacion de la sesion', 'Descripcion de la sesion', NULL, NULL, NULL),
+(62, 5, '2015-02-12', '2015-02-22 23:14:51', 'Sesion Ordinaria', NULL, NULL, NULL, NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

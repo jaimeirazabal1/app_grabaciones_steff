@@ -52,6 +52,12 @@ class Participaciones extends ActiveRecord{
 		return false;
 	}
 	public function getParticipacionesBySesionId($id,$order=null){
+		if (!Auth::is_valid()) {
+			if ($order) {
+				return $this->find("conditions: sesiones_id = '$id' and status is not null","order: $order");
+			}
+			return $this->find("conditions: sesiones_id = '$id'  and status is not null");
+		}
 		if (Auth::is_valid() and Auth::get("role")=='participante') {
 			if ($order) {
 				return $this->find("conditions: sesiones_id = '$id' and status is not null","order: $order");
@@ -101,7 +107,7 @@ class Participaciones extends ActiveRecord{
 								$nombre_participante = $nombre_array[0];
 								$nueva->nombre_participante = $nombre_participante;
 								$nueva->tiempo = str_replace("-", ":", $tiempo);
-								$nueva->status = null;
+								$nueva->status = 1;
 								$nueva->ruta = getcwd()."/files/uploads/".$entidad->nombre."/".$value->nombre."/".$archivos[$i];
 								if (!$nueva->save()) {
 									$error = 1;
